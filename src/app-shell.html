@@ -1,0 +1,30 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="app-shell">
+    <template>
+        <style>
+        </style>
+        <h1>Rick and Morty app</h1>
+
+    </template>
+    <script>
+        (function appShell(customElements) {
+            "use strict"
+
+            class AppShell extends Polymer.Element {
+                static get is() {
+                    return 'app-shell'
+                };
+
+                static get properties() {
+                    return {
+
+                    }
+                };
+
+            }
+            customElements.define(AppShell.is, AppShell);
+
+        })(window.customElements)
+    </script>
+</dom-module>
