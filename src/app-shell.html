@@ -1,10 +1,106 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 
 <dom-module id="app-shell">
     <template>
         <style>
+            :host{
+                font-size: 14px;
+                font-family: sans-serif;
+            }
+            .tabs{
+                display: flex;
+                justify-content: center;
+                background: red;
+            }
+            h1{
+                margin:0;
+                padding:2em;
+                font-size: 2em;
+                font-weight: 400;
+                text-align: center;
+                background: silver;
+            }
+            paper-tabs{
+                display: inline-block
+                font-size: 1.1em;
+            }
+            paper-tab{
+                padding-left:2em;
+                padding-right:2em; 
+            }
+            paper-spinner{
+                display: none;
+            }
+            paper-spinner[active]{
+                display: block;
+                margin:50px auto;
+            }
+            paper-spinner[active] + .content{
+                display: none !important;
+            }
         </style>
+
         <h1>Rick and Morty app</h1>
+        <div class="tabs">
+            <paper-tabs on-click="selectCategory" selected="[[categoryData.category]]" attr-for-selected="page">
+                <paper-tab page="All">All</paper-tab>
+                <paper-tab page="Alive">Alive</paper-tab>
+                <paper-tab page="Dead">Dead</paper-tab>
+                <paper-tab page="Unknown">Unknown</paper-tab>
+            </paper-tabs>
+        </div>
+        <paper-spinner id="spinner" activex class="green"></paper-spinner>
+        <div class="content">
+            <iron-pages selected="[[categoryData.category]]" attr-for-selected="page">
+                <div page="All">
+                    <p>ALLL</p>
+                    <template is="dom-repeat" items="[[filtered.all]]" as="character">
+                        <p>[[character.name]] - [[character.status]] </p>
+                    </template>
+                </div>
+                <div page="Alive">
+                    <template is="dom-repeat" items="[[filtered.alive]]" as="character">
+                        <p>[[character.name]] - [[character.status]] </p>
+                    </template>
+                </div>
+                <div page="Dead">
+                    <template is="dom-repeat" items="[[filtered.dead]]" as="character">
+                        <p>[[character.name]] - [[character.status]] </p>
+                    </template>
+                </div>
+                <div page="Unknown">
+                    <template is="dom-repeat" items="[[filtered.unknown]]" as="character">
+                        <p>[[character.name]] - [[character.status]] </p>
+                    </template>
+                </div>
+                <div page="detail"></div>
+            </iron-pages>
+        </div>
+
+
+        <iron-ajax
+            id="rickAjax"
+            auto
+            url="https://rickandmortyapi.com/api/character"
+            params=""
+            handle-as="json"
+            on-response="handleResponse"
+            on-error=""
+            last-response="{{characterList}}"
+            debounce-duration="300"
+        ></iron-ajax>
+
+        <app-location route="{{route}}" use-hash-as-path></app-location>
+        <app-route route="{{route}}"
+            pattern="/:category"
+            data="{{categoryData}}"
+            tail="{{categoryTail}}"></app-route>
 
     </template>
     <script>
@@ -18,9 +114,43 @@
 
                 static get properties() {
                     return {
-
+                        characterList: Array,
+                        filtered: {
+                            type:Object,
+                            value:{}
+                        }
                     }
-                };
+                }
+
+                selectCategory( event ) {
+                    this.set('route.path', '/' + event.currentTarget.selectedItem.innerText);
+                }
+
+                handleResponse(){
+                    this.$.spinner.removeAttribute('active');
+                    this.filterList();
+                    this.filterList('alive');
+                    this.filterList('dead');
+                    this.filterList('unknown');
+                }
+                filterList( searchStatus ){
+                    let list = [];
+                    searchStatus = searchStatus || this.categoryData.category;
+                    
+                    if( searchStatus != "All" ){
+                        list = this.characterList.results
+                            .filter(char => char.status.toLowerCase() == searchStatus.toLowerCase() );
+                    }else{
+                        list = this.characterList.results;
+                    }
+                    this.set("filtered."+ searchStatus.toLowerCase(),list);
+                }
+                ready(){
+                    super.ready();
+                    if(!this.route.path){
+                        this.set('route.path', '/All');
+                    }
+                }
 
             }
             customElements.define(AppShell.is, AppShell);
