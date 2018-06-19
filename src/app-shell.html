@@ -5,6 +5,10 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="/src/component-card.html">
+
+
 
 <dom-module id="app-shell">
     <template>
@@ -97,6 +101,11 @@
             last-response="{{characterList}}"
             debounce-duration="300"
         ></iron-ajax>
+
+         <template is="dom-repeat" items="{{personaje.results}}">
+            <component-card personaje=[[item]]>
+            </component-card>
+        </template>   
 
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route route="{{route}}"
