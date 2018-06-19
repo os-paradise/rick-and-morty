@@ -27,7 +27,7 @@
                 background: silver;
             }
             paper-tabs{
-                display: inline-block
+                display: inline-block;
                 font-size: 1.1em;
             }
             paper-tab{
@@ -55,7 +55,7 @@
                 <paper-tab page="Unknown">Unknown</paper-tab>
             </paper-tabs>
         </div>
-        <paper-spinner id="spinner" activex class="green"></paper-spinner>
+        <paper-spinner id="spinner" active class="green"></paper-spinner>
         <div class="content">
             <iron-pages selected="[[categoryData.category]]" attr-for-selected="page">
                 <div page="All">
@@ -79,7 +79,9 @@
                         <p>[[character.name]] - [[character.status]] </p>
                     </template>
                 </div>
-                <div page="detail"></div>
+                <div page="detail">
+                    <p>Detalle de [[categoryTail.path]]</p>
+                </div>
             </iron-pages>
         </div>
 
@@ -115,6 +117,7 @@
                 static get properties() {
                     return {
                         characterList: Array,
+                        selectedTab: String,
                         filtered: {
                             type:Object,
                             value:{}
@@ -124,6 +127,8 @@
 
                 selectCategory( event ) {
                     this.set('route.path', '/' + event.currentTarget.selectedItem.innerText);
+                    this.selectedTab = event.currentTarget.selectedItem.innerText;
+                    console.info(this.categoryTail);
                 }
 
                 handleResponse(){
