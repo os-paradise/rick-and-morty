@@ -1,0 +1,55 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+ 
+<dom-module id="character-detail">
+    <template>
+        <style>
+            paper-card {
+                width: 25%;
+            }
+        </style>
+ 
+        <iron-ajax auto url="{{url}}" handle-as="json" last-response="{{response}}" id="xhr"></iron-ajax>
+ 
+        <paper-card heading="{{response.name}}" image="{{response.image}}" alt="{{response.name}}">
+            <div class="card-content">
+                <ul>
+                    <li>status: [[response.status]]</li>
+                    <li>species: [[response.species]]</li>
+                    <li>gender: [[response.gender]]</li>
+                    <li>origin: [[response.origin.name]]</li>
+                    <li>location: [[response.location.name]]</li>
+                </ul>
+            </div>
+        </paper-card>
+
+    </template>
+    <script>
+        (function characterDetail(customElements) {
+            "use strict"
+ 
+            class CharacterDetail extends Polymer.Element {
+                static get is() {
+                    return 'character-detail'
+                }
+ 
+                static get properties() {
+                    return {
+                        id: Number,
+                        url: {
+                            computed: '_getUrl(id)'
+                        }
+                    }
+                }
+
+                   _getUrl(id) {
+                       console.log("*****")
+                    const baseUrl = 'https://rickandmortyapi.com/api/character/';
+                    return baseUrl + id;
+                }
+            }
+            customElements.define(CharacterDetail.is, CharacterDetail);
+        })(window.customElements);
+    </script>
+</dom-module>

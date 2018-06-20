@@ -64,13 +64,11 @@
       }
 
 			_changeRoute(event) {
-				console.log("hello there")
 				this.dispatchEvent(new CustomEvent('mycustom', {
                         bubbles: true,
                         composed: true,
                         detail: {
                             id: this.personaje.id
-                           
                         }
                     }))
 			}

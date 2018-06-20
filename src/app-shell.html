@@ -7,8 +7,7 @@
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="/src/component-card.html">
-
-
+<link rel="import" href="./character-detail.html">
 
 <dom-module id="app-shell">
     <template>
@@ -76,37 +75,31 @@
                     </template>
                 </div>
                 <div page="Alive">
-
                     <template is="dom-repeat" items="[[filtered.alive]]">
                         <component-card personaje=[[item]]>
                         </component-card>
                     </template>
-
                 </div>
                 <div page="Dead">
-                        <template is="dom-repeat" items="[[filtered.dead]]">
-                                <component-card personaje=[[item]]>
-                                </component-card>
-                            </template>
+                    <template is="dom-repeat" items="[[filtered.dead]]">
+                        <component-card personaje=[[item]]>
+                        </component-card>
+                    </template>
                 </div>
                 <div page="Unknown">
-
                     <template is="dom-repeat" items="[[filtered.unknown]]">
                         <component-card personaje=[[item]]>
                         </component-card>
                     </template>
                 </div>
                 <div page="detail">
-                    <p>Detalle de [[categoryTail.path]]</p>
+                    <character-detail id="[[characterID]]"></character-detail>
                 </div>
             </iron-pages>
         </div>
 
-
         <iron-ajax id="rickAjax" auto url="https://rickandmortyapi.com/api/character" params="" handle-as="json" on-response="handleResponse"
             on-error="" last-response="{{characterList}}" debounce-duration="300"></iron-ajax>
-
-
 
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route route="{{route}}" pattern="/:category" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
@@ -128,7 +121,8 @@
                         filtered: {
                             type: Object,
                             value: {}
-                        }
+                        },
+                        characterID: Number
                     }
                 }
 
@@ -167,10 +161,9 @@
                 }
 
                 _goToDetail(event) {
-                    console.log(event.detail)
                     this.set('route.path', '/detail');
-
-                } 
+                    this.characterID = event.detail.id
+                }
 
             }
             customElements.define(AppShell.is, AppShell);
