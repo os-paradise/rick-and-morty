@@ -13,39 +13,46 @@
 <dom-module id="app-shell">
     <template>
         <style>
-            :host{
+            :host {
                 font-size: 14px;
                 font-family: sans-serif;
             }
-            .tabs{
+
+            .tabs {
                 display: flex;
                 justify-content: center;
                 background: red;
             }
-            h1{
-                margin:0;
-                padding:2em;
+
+            h1 {
+                margin: 0;
+                padding: 2em;
                 font-size: 2em;
                 font-weight: 400;
                 text-align: center;
                 background: silver;
             }
-            paper-tabs{
+
+            paper-tabs {
                 display: inline-block;
                 font-size: 1.1em;
             }
-            paper-tab{
-                padding-left:2em;
-                padding-right:2em; 
+
+            paper-tab {
+                padding-left: 2em;
+                padding-right: 2em;
             }
-            paper-spinner{
+
+            paper-spinner {
                 display: none;
             }
-            paper-spinner[active]{
+
+            paper-spinner[active] {
                 display: block;
-                margin:50px auto;
+                margin: 50px auto;
             }
-            paper-spinner[active] + .content{
+
+            paper-spinner[active]+.content {
                 display: none !important;
             }
         </style>
@@ -63,24 +70,30 @@
         <div class="content">
             <iron-pages selected="[[categoryData.category]]" attr-for-selected="page">
                 <div page="All">
-                    <p>ALLL</p>
-                    <template is="dom-repeat" items="[[filtered.all]]" as="character">
-                        <p>[[character.name]] - [[character.status]] </p>
+                    <template is="dom-repeat" items="{{filtered.all}}">
+                        <component-card personaje=[[item]]>
+                        </component-card>
                     </template>
                 </div>
                 <div page="Alive">
-                    <template is="dom-repeat" items="[[filtered.alive]]" as="character">
-                        <p>[[character.name]] - [[character.status]] </p>
+
+                    <template is="dom-repeat" items="[[filtered.alive]]">
+                        <component-card personaje=[[item]]>
+                        </component-card>
                     </template>
+
                 </div>
                 <div page="Dead">
-                    <template is="dom-repeat" items="[[filtered.dead]]" as="character">
-                        <p>[[character.name]] - [[character.status]] </p>
-                    </template>
+                        <template is="dom-repeat" items="[[filtered.dead]]">
+                                <component-card personaje=[[item]]>
+                                </component-card>
+                            </template>
                 </div>
                 <div page="Unknown">
-                    <template is="dom-repeat" items="[[filtered.unknown]]" as="character">
-                        <p>[[character.name]] - [[character.status]] </p>
+
+                    <template is="dom-repeat" items="[[filtered.unknown]]">
+                        <component-card personaje=[[item]]>
+                        </component-card>
                     </template>
                 </div>
                 <div page="detail">
@@ -90,28 +103,13 @@
         </div>
 
 
-        <iron-ajax
-            id="rickAjax"
-            auto
-            url="https://rickandmortyapi.com/api/character"
-            params=""
-            handle-as="json"
-            on-response="handleResponse"
-            on-error=""
-            last-response="{{characterList}}"
-            debounce-duration="300"
-        ></iron-ajax>
+        <iron-ajax id="rickAjax" auto url="https://rickandmortyapi.com/api/character" params="" handle-as="json" on-response="handleResponse"
+            on-error="" last-response="{{characterList}}" debounce-duration="300"></iron-ajax>
 
-         <template is="dom-repeat" items="{{personaje.results}}">
-            <component-card personaje=[[item]]>
-            </component-card>
-        </template>   
+
 
         <app-location route="{{route}}" use-hash-as-path></app-location>
-        <app-route route="{{route}}"
-            pattern="/:category"
-            data="{{categoryData}}"
-            tail="{{categoryTail}}"></app-route>
+        <app-route route="{{route}}" pattern="/:category" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
 
     </template>
     <script>
@@ -128,43 +126,51 @@
                         characterList: Array,
                         selectedTab: String,
                         filtered: {
-                            type:Object,
-                            value:{}
+                            type: Object,
+                            value: {}
                         }
                     }
                 }
 
-                selectCategory( event ) {
+                selectCategory(event) {
                     this.set('route.path', '/' + event.currentTarget.selectedItem.innerText);
                     this.selectedTab = event.currentTarget.selectedItem.innerText;
                     console.info(this.categoryTail);
                 }
 
-                handleResponse(){
+                handleResponse() {
                     this.$.spinner.removeAttribute('active');
                     this.filterList();
                     this.filterList('alive');
                     this.filterList('dead');
                     this.filterList('unknown');
                 }
-                filterList( searchStatus ){
+                filterList(searchStatus) {
                     let list = [];
                     searchStatus = searchStatus || this.categoryData.category;
-                    
-                    if( searchStatus != "All" ){
+
+                    if (searchStatus != "All") {
                         list = this.characterList.results
-                            .filter(char => char.status.toLowerCase() == searchStatus.toLowerCase() );
-                    }else{
+                            .filter(char => char.status.toLowerCase() == searchStatus.toLowerCase());
+                    } else {
                         list = this.characterList.results;
                     }
-                    this.set("filtered."+ searchStatus.toLowerCase(),list);
+                    this.set("filtered." + searchStatus.toLowerCase(), list);
                 }
-                ready(){
+                ready() {
                     super.ready();
-                    if(!this.route.path){
+                    if (!this.route.path) {
                         this.set('route.path', '/All');
                     }
+
+                    this.addEventListener('mycustom', this._goToDetail);
                 }
+
+                _goToDetail(event) {
+                    console.log(event.detail)
+                    this.set('route.path', '/detail');
+
+                } 
 
             }
             customElements.define(AppShell.is, AppShell);

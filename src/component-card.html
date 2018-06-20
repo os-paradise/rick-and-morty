@@ -1,5 +1,5 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-card/paper-card-html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <dom-module id="component-card">
 	<template>
@@ -32,8 +32,13 @@
 			color: #D7CCC8;
 		}
 		</style>
+		<app-location route="{{route}}"></app-location>
+		<app-route
+    route="{{route}}"
+    pattern="/:id"
+    data="{{routeData}}"></app-route>
 
-		<paper-card image="[[personaje.image]]" elevation="1">
+		<paper-card on-click="_changeRoute" image="[[personaje.image]]" elevation="1">
 		  <div class="card-content">
 			<h1>[[personaje.id]]</h1>
 			<h1>[[personaje.name]]</h1>
@@ -57,6 +62,18 @@
           }
         };
       }
+
+			_changeRoute(event) {
+				console.log("hello there")
+				this.dispatchEvent(new CustomEvent('mycustom', {
+                        bubbles: true,
+                        composed: true,
+                        detail: {
+                            id: this.personaje.id
+                           
+                        }
+                    }))
+			}
     }
 
     window.customElements.define(ComponentCard.is, ComponentCard);
