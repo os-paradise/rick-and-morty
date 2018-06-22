@@ -1,77 +1,69 @@
-
-		  display: flex;<link rel="import" href="../bower_components/polymer/polymer-element.html">
+ display: flex;
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <dom-module id="component-card">
 	<template>
-	  <style>
-	    :host{
-		  flex-wrap: wrap;
-		  justify-content: space-around;
-		}
-		paper-card{
-		  width: 250px;
-		  --paper-card-header-image:{
-			width: 250px;
-		  }	
-		  --paper-card-header-image: {
-			max-height: 220px;
-		  }
-		  background-color: #f5f5f5;
-		}
-		h1{
-			color: #3f5185;
-			font-size: 1.2em;
-			font-family: roboto, sans-serif;
-		}
-		.card-content p{
-			font-size: .9em;
-		}
-		.sindescription{
-			color: #999;
-		}
-		.card-actions{
-			color: #D7CCC8;
-		}
+		<style>
+			
+			paper-card {
+				margin: 15px;
+			}
+
+			h1 {
+				color: #3f5185;
+				font-size: 1.2em;
+				font-family: roboto, sans-serif;
+			}
+
+			.card-content p {
+				font-size: .9em;
+			}
+
+			.sindescription {
+				color: #999;
+			}
+
+			.card-actions {
+				color: #D7CCC8;
+			}
 		</style>
-		
 
-		<paper-card on-click="_changeRoute" image="[[personaje.image]]" elevation="1">
-		  <div class="card-content">
-			<h1>[[personaje.id]]</h1>
-			<h1>[[personaje.name]]</h1>
-			<h1>[[personaje.status]]</h1>
-			<h1>[[personaje.type]]</h1>
-			<h1>[[personaje.gender]]</h1>
-		  </div>
-		  <div class="card-actions">
-			<paper-icon-button icon="star"></paper-icon-button>	
-		  </div>
-	    </paper-card>
-	  </template>
 
-	  <script>
-	   class ComponentCard extends Polymer.Element {
-      static get is() { return 'component-card'; }
-      static get properties() {
-        return {
-          personaje: {
-            type: Object
-          }
-        };
-      }
+		<paper-card on-click="_changeRoute" heading="[[personaje.name]]" image="[[personaje.image]]" elevation="1">
+			<div class="card-content">
+				<h1>[[personaje.status]]</h1>
+				<h1>[[personaje.type]]</h1>
+				<h1>[[personaje.gender]]</h1>
+			</div>
+
+		</paper-card>
+	</template>
+
+	<script>
+		class ComponentCard extends Polymer.Element {
+			static get is() {
+				return 'component-card';
+			}
+			static get properties() {
+				return {
+					personaje: {
+						type: Object
+					}
+				};
+			}
 
 			_changeRoute(event) {
 				this.dispatchEvent(new CustomEvent('mycustom', {
-                        bubbles: true,
-                        composed: true,
-                        detail: {
-                            id: this.personaje.id
-                        }
-                    }))
+					bubbles: true,
+					composed: true,
+					detail: {
+						id: this.personaje.id
+					}
+				}))
 			}
-    }
+		}
 
-    window.customElements.define(ComponentCard.is, ComponentCard);
-      </script>
-    </dom-module>
+		window.customElements.define(ComponentCard.is, ComponentCard);
+	</script>
+</dom-module>

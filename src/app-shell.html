@@ -20,7 +20,7 @@
             .tabs {
                 display: flex;
                 justify-content: center;
-                background: red;
+                background: #EC9B30;
             }
 
             h1 {
@@ -29,7 +29,7 @@
                 font-size: 2em;
                 font-weight: 400;
                 text-align: center;
-                background: silver;
+                background: #B2C9AB;
             }
 
             paper-tabs {
@@ -54,6 +54,12 @@
             paper-spinner[active]+.content {
                 display: none !important;
             }
+
+            .container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
         </style>
 
         <h1>Rick and Morty app</h1>
@@ -68,31 +74,31 @@
         <paper-spinner id="spinner" active class="green"></paper-spinner>
         <div class="content">
             <iron-pages selected="[[categoryData.category]]" attr-for-selected="page">
-                <div page="All">
+                <div class="container" page="All">
                     <template is="dom-repeat" items="{{filtered.all}}">
                         <component-card personaje=[[item]]>
                         </component-card>
                     </template>
                 </div>
-                <div page="Alive">
+                <div class="container" page="Alive">
                     <template is="dom-repeat" items="[[filtered.alive]]">
                         <component-card personaje=[[item]]>
                         </component-card>
                     </template>
                 </div>
-                <div page="Dead">
+                <div class="container" page="Dead">
                     <template is="dom-repeat" items="[[filtered.dead]]">
                         <component-card personaje=[[item]]>
                         </component-card>
                     </template>
                 </div>
-                <div page="Unknown">
+                <div class="container" page="Unknown">
                     <template is="dom-repeat" items="[[filtered.unknown]]">
                         <component-card personaje=[[item]]>
                         </component-card>
                     </template>
                 </div>
-                <div page="detail">
+                <div class="container" page="detail">
                     <character-detail id="[[characterID]]"></character-detail>
                 </div>
             </iron-pages>

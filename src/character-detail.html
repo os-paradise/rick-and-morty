@@ -4,35 +4,35 @@
 <link rel="import" href="./character-pictures.html">
 
 <link rel="import" href="./redes-sociales.html">
- 
+
 <dom-module id="character-detail">
     <template>
         <style>
-            paper-card {
-                width: 25%;
-            }
-
             .friends-contaier {
-                display: flex;
+                height: 150px;
             }
+         
         </style>
 
         <iron-ajax auto url="{{url}}" handle-as="json" last-response="{{response}}" id="xhr"></iron-ajax>
 
-        <paper-card heading="{{response.name}}" image="{{response.image}}" alt="{{response.name}}">
-            <div class="card-content">
-                <ul>
-                    <li>status: [[response.status]]</li>
-                    <li>species: [[response.species]]</li>
-                    <li>gender: [[response.gender]]</li>
-                    <li>origin: [[response.origin.name]]</li>
-                    <li>location: [[response.location.name]]</li>
-                </ul>
-            </div>
-        </paper-card>
+        <div class="container">
+            <paper-card heading="{{response.name}}" image="{{response.image}}" alt="{{response.name}}">
+                <div class="card-content">
+                    <ul>
+                        <li>status: [[response.status]]</li>
+                        <li>species: [[response.species]]</li>
+                        <li>gender: [[response.gender]]</li>
+                        <li>origin: [[response.origin.name]]</li>
+                        <li>location: [[response.location.name]]</li>
+                    </ul>
+                </div>
+            </paper-card>
 
-        <div class="friends-contaier">
-            <character-pictures pictures="[[friendsList]]"></character-pictures>
+            <div class="friends-contaier">
+                <h3>Friends</h3>
+                <character-pictures pictures="[[friendsList]]"></character-pictures>
+            </div>
         </div>
 
         <redes-sociales></redes-sociales>

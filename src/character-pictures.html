@@ -2,7 +2,9 @@
 
 <dom-module id="character-pictures">
     <style>
-        
+        .pics-container {
+            outline: 5px solid rebeccapurple;
+        }
       
     </style>
     <template>
@@ -27,8 +29,6 @@
                     return randomNum;
                 }
             }
-
-
 
             customElements.define(CharacterPictures.is, CharacterPictures);
         })(window.customElements);
