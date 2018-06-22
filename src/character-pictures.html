@@ -1,13 +1,30 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 
 <dom-module id="character-pictures">
-    <style>
-        .pics-container {
-            outline: 5px solid rebeccapurple;
-        }
-      
-    </style>
     <template>
+        <style>
+            :host{
+                display: block;
+                
+            }
+            .pics-container {
+                display: flex;
+                justify-content: space-around;
+                padding: 20px;
+                background: #f5f5f5;
+            }
+            picture{
+                display: inline-block;
+                max-width: 100px;
+            }
+            picture + picture{
+                margin-left: 20px
+            }
+            img{
+                max-width: 100%;
+            }
+        
+        </style>
         <div class="pics-container">
             <template is="dom-repeat" items="[[pictures]]">
                 <picture class="avatar"><img src="[[item]]" alt=""></picture>
