@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="stylesheet" href="font.css">
 
-<dom-module id="barra-sociales-app">
+<dom-module id="redes-sociales">
   <template>
     <style>
       :host {
@@ -106,18 +106,18 @@
      * @customElement
      * @polymer
      */
-    class BarraSocialesApp extends Polymer.Element {
-      static get is() { return 'barra-sociales-app'; }
+    class RedesSociales extends Polymer.Element {
+      static get is() { return 'redes-sociales'; }
       static get properties() {
         return {
           prop1: {
             type: String,
-            value: 'barra-sociales-app'
+            value: 'redes-sociales'
           }
         };
       }
     }
 
-    window.customElements.define(BarraSocialesApp.is, BarraSocialesApp);
+    window.customElements.define(RedesSociales.is, RedesSociales);
   </script>
 </dom-module>
