@@ -1,11 +1,11 @@
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+		  display: flex;<link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <dom-module id="component-card">
 	<template>
 	  <style>
 	    :host{
-		  display: flex;
 		  flex-wrap: wrap;
 		  justify-content: space-around;
 		}
@@ -34,11 +34,7 @@
 			color: #D7CCC8;
 		}
 		</style>
-		<app-location route="{{route}}"></app-location>
-		<app-route
-    route="{{route}}"
-    pattern="/:id"
-    data="{{routeData}}"></app-route>
+		
 
 		<paper-card on-click="_changeRoute" image="[[personaje.image]]" elevation="1">
 		  <div class="card-content">
