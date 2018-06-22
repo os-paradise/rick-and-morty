@@ -1,0 +1,36 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="character-pictures">
+    <style>
+        
+      
+    </style>
+    <template>
+        <div class="pics-container">
+            <template is="dom-repeat" items="[[pictures]]">
+                <picture class="avatar"><img src="[[item]]" alt=""></picture>
+            </template>
+        </div>
+
+    </template>
+    <script>
+        (function characterPictures(customElements) {
+            "use strict"
+
+            class CharacterPictures extends Polymer.Element {
+                static get is() {
+                    return 'character-pictures';
+                }
+
+                _getRandomNum() {
+                    let randomNum = Math.floor(Math.random() * 10) + 1;
+                    return randomNum;
+                }
+            }
+
+
+
+            customElements.define(CharacterPictures.is, CharacterPictures);
+        })(window.customElements);
+    </script>
+</dom-module>

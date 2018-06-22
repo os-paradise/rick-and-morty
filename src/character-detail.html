@@ -1,17 +1,22 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
- 
+<link rel="import" href="./character-pictures.html">
+
 <dom-module id="character-detail">
     <template>
         <style>
             paper-card {
                 width: 25%;
             }
+
+            .friends-contaier {
+                display: flex;
+            }
         </style>
- 
+
         <iron-ajax auto url="{{url}}" handle-as="json" last-response="{{response}}" id="xhr"></iron-ajax>
- 
+
         <paper-card heading="{{response.name}}" image="{{response.image}}" alt="{{response.name}}">
             <div class="card-content">
                 <ul>
@@ -24,29 +29,49 @@
             </div>
         </paper-card>
 
+        <div class="friends-contaier">
+            <character-pictures pictures="[[friendsList]]"></character-pictures>
+        </div>
+
+
     </template>
     <script>
         (function characterDetail(customElements) {
             "use strict"
- 
+
             class CharacterDetail extends Polymer.Element {
                 static get is() {
                     return 'character-detail'
                 }
- 
+
                 static get properties() {
                     return {
                         id: Number,
                         url: {
                             computed: '_getUrl(id)'
+                        },
+                        friendsList: {
+                            value: []
                         }
                     }
                 }
 
-                   _getUrl(id) {
-                       console.log("*****")
+                _getUrl(id) {
+                    this.friendsList = [];
+                    for (let i = 0; i < 3; i++) {
+                        this.addUser(this._getRandomNum())
+                    }
                     const baseUrl = 'https://rickandmortyapi.com/api/character/';
                     return baseUrl + id;
+                }
+
+                addUser(id) {
+                    this.push('friendsList', `https://rickandmortyapi.com/api/character/avatar/${id}.jpeg`);
+                }
+
+                _getRandomNum() {
+                    let randomNum = Math.floor(Math.random() * 50) + 1;
+                    return randomNum
                 }
             }
             customElements.define(CharacterDetail.is, CharacterDetail);
